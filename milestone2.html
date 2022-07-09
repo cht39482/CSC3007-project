@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, #fcf9f6, white);
+            background-attachment: fixed;
+            background-size: 100%;
+        }
+
+        .headerColor {
+            color: #350635;
+            background-color: #d4c7d4;
+        }
+
+        .textTitle {
+            color: #350635;
+            margin: auto;
+            padding: 5px;
+        }
+
+        .textBox {
+            font-weight: normal;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .tooltip 
+        {
+            background-color: beige;
+            position: absolute;
+        }
+
+        .selected {
+            fill: gray;
+            stroke: brown;
+            stroke-width: 2px;
+        }
+
+        .linkSetting {
+            color: #5930f0;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+        .center {
+            margin: auto;
+            width: 50%;
+        }
+
+    </style>
+    <script src = "https://d3js.org/d3.v7.min.js"></script>
+    <script src="heatmap.js" defer></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+    <h1 class="headerColor">
+        World's Data Breaches and Hacks
+    </h1>
+
+    <h2 class="textTitle">
+        What is data breach?
+    </h2>
+
+    <div class="textTitle">
+        <p class="textBox">
+            A data breach is a security violation; whereby sensitive, protected and confidential information is 
+            exposed by intentional or unintentional means. This includes when the data is copied, transmitted, 
+            viewed, stolen or used by an individual unauthorized to do so. Incidents can range from concerted 
+            attacks by individuals who hack for personal gain such as black hats, organised crime, to hacking 
+            for the cause of political activists or national governments. Other causes include poorly configured 
+            system security or careless disposal of retired computer equipment or data storage media such as 
+            hard disks drive or solid state drives.
+        </p>
+        <p class="textBox">
+            All in all, a data breach can occur accidentally or as the result of a deliberate attack. As the world 
+            becomes more digitized, data breaches are a major security concern because sensitive data is constantly 
+            being transmitted over the internet. Moreover, data is also stored in digital form by businesses all over 
+            the world, and the servers that store the data are often vulnerable to various forms of cyber-attack.
+        </p>
+    </div>
+    <h3 class="textTitle" style="text-align: center;">
+        Data breaches are a concern for all organizations today
+    </h3>
+    <div class="textTitle">
+        <p class="textBox">
+            A data breach can destroy a business. 
+            For small and medium-sized businesses (SMB), 
+            <a href="https://securityintelligence.com/articles/long-term-impacts-security-breach/" class="linkSetting">
+                60% will shut down within size months of the attack.
+            </a> 
+        </p>
+        <p class="textBox">
+            Some of the list includes:
+            <ul>
+                <li>Poisoned search results on corporate branch</li>
+                <ul>
+                    <li>
+                        the damage to the company's good name is difficult to overcome compared to the financial damage
+                    </li>
+                </ul>
+
+                <li>Loss of sales after data breach</li>
+                <ul>
+                    <li>
+                        Poisoned searches and regular negative reports on news outlets turn off potential new customers.
+                    </li>
+                    <li>
+                        Sales teams may not have good answers for cybersecurity beyond the corporate talking points
+                    </li>
+                </ul>
+
+                <li>Unexpected Expenses</li>
+                <ul>
+                    <li>
+                        Expenses rise such as consideration for ransom payment during ransom attack
+                    </li>
+                    <li>
+                        Lost income in downtime
+                    </li>
+                </ul>
+            </ul>
+        </p>
+
+        <p class="textBox">
+            According to 
+            <a href="https://www.trendmicro.com/en_sg/business.html" class="linkSetting">
+                Trend Micro's findings of its latest global Cyber Risk Index
+            </a> 
+            (CRI) for the second half of 2021, 76% of respondents expect a breach in the next 12 months. Over one-third of the 
+            organizations faced seven or more successful network attacks in the past 12 months, a 10% increase since the previous results. 
+            In addition, as data gets more and more digitized, there is also an increase in the amount of data loss during data breach 
+            compared to the previous years.
+        </p>
+    </div>
+    <h3 class="textTitle" style="text-align: center;">
+        Data breaches are on the rise throughout the years
+    </h3>
+    <div class="textTitle">
+        <p class="textBox">
+            As the data becomes more digitalized, the number of major data breach cases are on the rise:
+        </p>
+        <div>
+            <div class="center">
+                <div>
+                    Legends:
+                </div>
+                <svg id="legend"></svg>
+            </div>
+            
+            <svg id="container"></svg>
+        </div>
+    </div>
+    <div class="textTitle">
+        <p class="textBox">
+            As shown in the heatmap, cases of major global data breaches are on an increasing trend, with insurmountable 
+            amount of data records lost with each case.
+        </p>
+        <p class="textBox">
+            The Cyber Risk Index report also highlighted top five cyber threats in Asia Pacific (APAC) includes:
+            <ul>
+                <li>Phishing and social engineering </li>
+                <ul>
+                    <li>
+                        Attacks that often scam and steal user data with fraudulent messages usually via emails or text with links or attachments
+                    </li>
+                </ul>
+
+                <li>Botnets</li>
+                <ul>
+                    <li>
+                        Cybercriminals that infiltrate and gain control of the organizations' network
+                    </li>
+                </ul>
+
+                <li>Fileless Attack</li>
+                <ul>
+                    <li>
+                        Malware that uses legitimate tools built in the system to execute an attack
+                    </li>
+                </ul>
+
+                <li>Randomware</li>
+                <ul>
+                    <li>
+                        An attack that withholds critical or personal data, usually at a ransom
+                    </li>
+                </ul>
+
+                <li>Denial of Service</li>
+                <ul>
+                    <li>
+                        Attack that disrupts and prevents daily operational functions of its victims
+                    </li>
+                </ul>
+            </ul>	
+        </p>
+    </div>
+
+</body>
+</html>
