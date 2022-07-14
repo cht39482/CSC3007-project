@@ -1,18 +1,25 @@
 const breachesData = "https://june-han.github.io/DataBreach_HeatMap/data/breaches.csv"
 
-let width = 1000, height = 600;
+let width = 1200, height = 800;
 
 //set margin left and bottom for the axis labels
-var margin = {top: 10, right: 10, bottom: 30, left: 90},
+var margin = {top: 10, right: 10, bottom: 70, left: 90},
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top -margin.bottom;
 
-let svg = d3.select("#container")
+let heatmap = d3.select("#heatmapGraph")
+    .attr("viewBox", "0 0 " + width + " " + height);
+
+let lollipop = d3.select("#lollipop")
     .attr("viewBox", "0 0 " + width + " " + height);
 
 // Load external data
 Promise.all([d3.csv(breachesData)]).then(data => {
     console.log(data[0])
+
+    /*******************************************
+    ******************Heat Map******************
+    ********************************************/
     // Create x axis with unique years
     let xYears = [...new Set(data[0].map(item => item.year))];
 
@@ -32,23 +39,23 @@ Promise.all([d3.csv(breachesData)]).then(data => {
                     .padding(0.01);
     
     // Add x-axis to graph
-    svg.append("g")
-        .style("font-size", 15) 
+    heatmap.append("g")
+        .style("font-size", 15) // Increase font size of side labels
         .attr("transform", "translate(0,"+ margin_height + ")")
-        .call(d3.axisBottom(xScale).tickSize(0)) 
-        .select (".domain").remove() 
+        .call(d3.axisBottom(xScale).tickSize(0)) //tickSize default is 1, 0 means not ticks
+        .select (".domain").remove() //remove the axis line
 
     //Add y-axis to graph
-    svg.append("g")
-        .style("font-size", 15)
+    heatmap.append("g")
+        .style("font-size", 15) // Increase font size of side labels
         .attr("transform", "translate(" + margin.left + ", 0)")
-        .call(d3.axisLeft(yScale).tickSize(0)) 
-        .select (".domain").remove() 
+        .call(d3.axisLeft(yScale).tickSize(0)) //Specify the axis with the ticks default is 1, 0 means not ticks
+        .select (".domain").remove() //remove the axis line
     
     //Build a color scale
     let colorScale = d3.scaleSequential()
                         .interpolator(d3.interpolateInferno)
-                        .domain([1, 12])
+                        .domain([1, 10])
     
     //Build the dataset
     let mapData = [];
@@ -63,11 +70,12 @@ Promise.all([d3.csv(breachesData)]).then(data => {
             records.forEach((record) => {  
                 obj.recordslost += parseFloat(record["records lost"].replace(/,/g, ''));
             })
+            //console.log(obj)
             mapData.push(obj)
         })
     })
     
-    svg.selectAll("rect")
+    heatmap.selectAll("rect")
         .data(mapData)
         .enter()
         .append("rect")
@@ -85,6 +93,7 @@ Promise.all([d3.csv(breachesData)]).then(data => {
                 return colorScale(d.value)
             })
             .style("stroke-width", 4)
+        //mouseover tooltip effect
         .on("mouseover", (event) => {
             d3.select(event.currentTarget)
             .attr("stroke", "black")
@@ -103,13 +112,13 @@ Promise.all([d3.csv(breachesData)]).then(data => {
 
 
     //DRAWING LEGEND
+    // Add one dot in the legend for each name.
     legendSVG = d3.select("#legend")
                     .attr("height", 50)
                     .attr("width", 500);
     var size = 20
-    // Add rect for each color
-    let colorScaleKeys = [...Array(13).keys()];
-    console.log (colorScaleKeys)
+    let colorScaleKeys = [...Array(10).keys()];
+
     legendSVG.append("g")
         .selectAll("legendColors")
             .data(colorScaleKeys)
@@ -135,5 +144,76 @@ Promise.all([d3.csv(breachesData)]).then(data => {
                 .text(function(key){ return key})
                 .attr("text-anchor", "left")
                 .style("alignment-baseline", "middle");
-    
+
+
+    /*******************************************
+    *****************Lollipop*******************
+    ********************************************/
+    let yMethods = [...new Set(data[0].map(item => item.method))];
+    let lollipopRecords = [];
+    yMethods.forEach( item => {
+        let obj = {};
+        obj.method = item;
+        let lollipopCollection = data[0].filter(record => record.method === item);
+        obj.count = lollipopCollection.length;
+        obj.recordslost = 0;
+        lollipopCollection.forEach(record => {
+            obj.recordslost += parseFloat(record["records lost"].replace(/,/g, ''));
+        });
+
+        lollipopRecords.push(obj);
     })
+    console.log(lollipopRecords)
+
+    // max lollipop value for x axis max
+    var maxX_lollipop = Math.max.apply(Math, lollipopRecords.map(record => record.recordslost))
+    console.log(maxX_lollipop)
+    //Scaling the x axis to the width of the graph
+    var xlolliScale = d3.scaleLinear()
+                        .domain([0, maxX_lollipop])
+                        .rangeRound([margin.left, margin_width]);
+
+    // Scaling the y axis to the height of the graph
+    var ylolliScale = d3.scaleBand()
+                        .rangeRound([margin.top, margin_height])
+                        .domain(lollipopRecords.map(d => d.method))
+                        .padding(1);
+
+    // Add x axis to the graph
+    lollipop.append("g")
+            .attr("transform", "translate(0," + margin_height + ")")
+            .style("font", "15px times")
+            .attr("stroke-width", "2px")
+            .call(d3.axisBottom(xlolliScale));
+    
+    //Add y axis to the graph
+    lollipop.append("g")
+            .attr("transform", "translate(" + margin.left + ", 0)")
+            .style("font", "14px times")
+            .attr("stroke-width", "2px")
+            .call(d3.axisLeft(ylolliScale));   
+            
+    // Lines
+    lollipop.selectAll("lolliLine")
+        .data(lollipopRecords)
+        .enter()
+        .append("line")
+        .attr("x1", xlolliScale(0)) //start point
+        .attr("y1", function(d) { return ylolliScale(d.method); })
+        .attr("x2", d => xlolliScale(d.recordslost)) //end point (stops at x = 0)
+        .attr("y2", function(d) { return ylolliScale(d.method); })
+        .attr("stroke", "grey")
+        .attr("stroke-width", "3px")
+
+    // Circles
+    lollipop.selectAll("lolliCircle")
+        .data(lollipopRecords)
+        .enter()
+        .append("circle")
+        .attr("cx", data => xlolliScale(data.recordslost))
+        .attr("cy", data => ylolliScale(data.method))
+        .attr("r", "5")
+        .style("fill", "#A020F0")
+        .attr("stroke", "black")
+        .attr("stroke-width", "3px")
+})

@@ -51,7 +51,7 @@
 
     </style>
     <script src = "https://d3js.org/d3.v7.min.js"></script>
-    <script src="heatmap.js" defer></script>
+    <script src="app.js" defer></script>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
@@ -150,7 +150,7 @@
                 <svg id="legend"></svg>
             </div>
             
-            <svg id="container"></svg>
+            <svg id="heatmapGraph"></svg>
         </div>
     </div>
     <div class="textTitle">
@@ -197,6 +197,14 @@
                 </ul>
             </ul>	
         </p>
+    </div>
+
+    <h3 class="textTitle" style="text-align: center;">
+        Lollipop Map of how the data records are lost
+    </h3>
+
+    <div>
+        <svg id="lollipop"></svg>
     </div>
 
 </body>
