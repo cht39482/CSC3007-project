@@ -40,17 +40,17 @@ Promise.all([d3.csv(breachesData)]).then(data => {
     
     // Add x-axis to graph
     heatmap.append("g")
-        .style("font-size", 15) // Increase font size of side labels
+        .style("font", "15px times")
         .attr("transform", "translate(0,"+ margin_height + ")")
-        .call(d3.axisBottom(xScale).tickSize(0)) //tickSize default is 1, 0 means not ticks
-        .select (".domain").remove() //remove the axis line
+        .call(d3.axisBottom(xScale).tickSize(0))
+        .select (".domain").remove()
 
     //Add y-axis to graph
     heatmap.append("g")
-        .style("font-size", 15) // Increase font size of side labels
+        .style("font", "15px times")
         .attr("transform", "translate(" + margin.left + ", 0)")
-        .call(d3.axisLeft(yScale).tickSize(0)) //Specify the axis with the ticks default is 1, 0 means not ticks
-        .select (".domain").remove() //remove the axis line
+        .call(d3.axisLeft(yScale).tickSize(0)) 
+        .select (".domain").remove() 
     
     //Build a color scale
     let colorScale = d3.scaleSequential()
@@ -74,6 +74,18 @@ Promise.all([d3.csv(breachesData)]).then(data => {
             mapData.push(obj)
         })
     })
+
+    //Tooltip for the heatmap squares
+    var heatmap_tooltip = d3.select("#heattip")
+                    .style("position", "absolute")
+                    .style("z-index", "10")
+                    .style("visibility", "hidden")
+                    .style("padding", "15px")
+                    .style("color", "white") //text color
+                    .style("background", "black") //bg color
+                    .style("border", "2px solid white") //border
+                    .style("border-radius", "25px")
+                    .style("box-shadow", "10px 8px 2px 1px rgba(0, 0, 255, .2)");
     
     heatmap.selectAll("rect")
         .data(mapData)
@@ -94,31 +106,36 @@ Promise.all([d3.csv(breachesData)]).then(data => {
             })
             .style("stroke-width", 4)
         //mouseover tooltip effect
-        .on("mouseover", (event) => {
+        .on("mouseover", (event, d) => {
             d3.select(event.currentTarget)
             .attr("stroke", "black")
             .attr("stroke-width", 10)
-            .attr('opacity', '.8')
-            .append('title')
-            .text((d) => d.value + ' ' + d.sector + ' cases in '+ d.year+"\n"
-            + d.recordslost + " records lost");
+            .attr('opacity', '.8');
+
+            heatmap_tooltip
+                        .text(+d.value + ' ' + d.sector + ' cases in '+ d.year +' with '+d.recordslost + ' records lost')
+                        .style("visibility", "visible")
+                        .style("top", (event.pageY-10)+"px")
+                        .style("left",(event.pageX+10)+"px");
         }) 
         .on("mouseout", (event) => {
             d3.select(event.currentTarget)
             .attr("stroke", "none")
-            .attr('opacity', '1')
-            .select('title').remove()
+            .attr('opacity', '1');
+            d3.select("#heattip")
+                .text("")
+                .style("visibility", "hidden");
         });
 
 
     //DRAWING LEGEND
-    // Add one dot in the legend for each name.
     legendSVG = d3.select("#legend")
                     .attr("height", 50)
                     .attr("width", 500);
     var size = 20
     let colorScaleKeys = [...Array(10).keys()];
-
+    
+    //legend colors
     legendSVG.append("g")
         .selectAll("legendColors")
             .data(colorScaleKeys)
@@ -132,13 +149,13 @@ Promise.all([d3.csv(breachesData)]).then(data => {
                 .attr("stroke-width", 0.5)
                 .style("fill", function(key){ return colorScale(key)});
 
-    // Add one dot in the legend for each name.
+    // legend labels
     legendSVG.append("g")
             .selectAll("legendlabels")
             .data(colorScaleKeys)
             .enter()
             .append("text")
-                .attr("y", margin.top)
+                .attr("y", margin.top+3)
                 .attr("x", (key,index) => {return 35 + index*(size+5) + (size/2)})
                 .style("fill", "black")
                 .text(function(key){ return key})
@@ -167,7 +184,6 @@ Promise.all([d3.csv(breachesData)]).then(data => {
 
     // max lollipop value for x axis max
     var maxX_lollipop = Math.max.apply(Math, lollipopRecords.map(record => record.recordslost))
-    console.log(maxX_lollipop)
     //Scaling the x axis to the width of the graph
     var xlolliScale = d3.scaleLinear()
                         .domain([0, maxX_lollipop])
@@ -189,7 +205,7 @@ Promise.all([d3.csv(breachesData)]).then(data => {
     //Add y axis to the graph
     lollipop.append("g")
             .attr("transform", "translate(" + margin.left + ", 0)")
-            .style("font", "14px times")
+            .style("font", "15px times")
             .attr("stroke-width", "2px")
             .call(d3.axisLeft(ylolliScale));   
             
@@ -205,15 +221,45 @@ Promise.all([d3.csv(breachesData)]).then(data => {
         .attr("stroke", "grey")
         .attr("stroke-width", "3px")
 
+    //Tooltip for circles
+    var lolli_tooltip = d3.select("#lollitip")
+                    .style("position", "absolute")
+                    .style("z-index", "10")
+                    .style("visibility", "hidden")
+                    .style("padding", "15px")
+                    .style("color", "white") //text color
+                    .style("background", "black") //bg color
+                    .style("border", "2px solid white") //border
+                    .style("border-radius", "25px")
+                    .style("box-shadow", "10px 8px 2px 1px rgba(0, 0, 255, .2)");
+
     // Circles
     lollipop.selectAll("lolliCircle")
-        .data(lollipopRecords)
-        .enter()
-        .append("circle")
-        .attr("cx", data => xlolliScale(data.recordslost))
-        .attr("cy", data => ylolliScale(data.method))
-        .attr("r", "5")
-        .style("fill", "#A020F0")
-        .attr("stroke", "black")
-        .attr("stroke-width", "3px")
+            .data(lollipopRecords)
+            .enter()
+            .append("circle")
+            .attr("cx", data => xlolliScale(data.recordslost))
+            .attr("cy", data => ylolliScale(data.method))
+            .attr("r", "8")
+            .style("fill", "#A020F0")
+            .attr("stroke", "black")
+            .attr("stroke-width", "2px")
+            .on("mouseover", (event, d) => {
+                d3.select(event.currentTarget)
+                    .attr ("stroke-width", 10)
+                    .attr ("opacity", "0.8");
+                lolli_tooltip.text("Total Records Lost: " + d.recordslost)
+                       .style("visibility", "visible")
+                       .style("top", (event.pageY-10)+"px")
+                       .style("left",(event.pageX+10)+"px");
+            })
+            .on("mouseout", (event) => {
+                d3.select(event.currentTarget)
+                    .attr("stroke-width", "2px")
+                    .attr('opacity', '1');
+                d3.select("#lollitip")
+                    .text("")
+                    .style("visibility", "hidden");
+            });
+
 })
