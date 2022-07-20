@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <style>
@@ -33,8 +34,7 @@
             padding: 10px;
         }
 
-        .tooltip 
-        {
+        .tooltip {
             background-color: beige;
             position: absolute;
         }
@@ -56,13 +56,64 @@
             width: 50%;
         }
 
+
+        .card_left {
+            background-color: transparent;
+            width: 350px;
+            height: 350px;
+            float: left;
+            margin: 10px;
+            margin-left: 5%;
+            text-align: center;
+
+        }
+
+        .card_left_inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card_left:hover .card_left_inner {
+            transform: rotateY(180deg);
+        }
+
+        .card_left_front,
+        .card_left_back {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .card_left_front {
+            background-color: #EF9F7B;
+            padding: 10px;
+            color: black;
+        }
+
+        .card_left_back {
+            background-color: #DDD9D8;
+            color: black;
+            padding: 10px;
+            transform: rotateY(180deg);
+        }
     </style>
-    <script src = "https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="app.js" defer></script>
     <script type="text/javascript" src="bar_graph.js" defer></script>
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
     <h1 class="headerColor">
         World's Data Breaches and Hacks
@@ -74,18 +125,18 @@
 
     <div class="textTitle">
         <p class="textBox">
-            A data breach is a security violation; whereby sensitive, protected and confidential information is 
-            exposed by intentional or unintentional means. This includes when the data is copied, transmitted, 
-            viewed, stolen or used by an individual unauthorized to do so. Incidents can range from concerted 
-            attacks by individuals who hack for personal gain such as black hats, organised crime, to hacking 
-            for the cause of political activists or national governments. Other causes include poorly configured 
-            system security or careless disposal of retired computer equipment or data storage media such as 
+            A data breach is a security violation; whereby sensitive, protected and confidential information is
+            exposed by intentional or unintentional means. This includes when the data is copied, transmitted,
+            viewed, stolen or used by an individual unauthorized to do so. Incidents can range from concerted
+            attacks by individuals who hack for personal gain such as black hats, organised crime, to hacking
+            for the cause of political activists or national governments. Other causes include poorly configured
+            system security or careless disposal of retired computer equipment or data storage media such as
             hard disks drive or solid state drives.
         </p>
         <p class="textBox">
-            All in all, a data breach can occur accidentally or as the result of a deliberate attack. As the world 
-            becomes more digitized, data breaches are a major security concern because sensitive data is constantly 
-            being transmitted over the internet. Moreover, data is also stored in digital form by businesses all over 
+            All in all, a data breach can occur accidentally or as the result of a deliberate attack. As the world
+            becomes more digitized, data breaches are a major security concern because sensitive data is constantly
+            being transmitted over the internet. Moreover, data is also stored in digital form by businesses all over
             the world, and the servers that store the data are often vulnerable to various forms of cyber-attack.
         </p>
     </div>
@@ -94,52 +145,55 @@
     </h3>
     <div class="textTitle">
         <p class="textBox">
-            A data breach can destroy a business. 
-            For small and medium-sized businesses (SMB), 
+            A data breach can destroy a business.
+            For small and medium-sized businesses (SMB),
             <a href="https://securityintelligence.com/articles/long-term-impacts-security-breach/" class="linkSetting">
                 60% will shut down within six months of the attack.
-            </a> 
+            </a>
         </p>
         <p class="textBox">
             Some of the list includes:
+        <ul>
+            <li>Poisoned search results on corporate branch</li>
             <ul>
-                <li>Poisoned search results on corporate branch</li>
-                <ul>
-                    <li>
-                        the damage to the company's good name is difficult to overcome compared to the financial damage
-                    </li>
-                </ul>
-
-                <li>Loss of sales after data breach</li>
-                <ul>
-                    <li>
-                        Poisoned searches and regular negative reports on news outlets turn off potential new customers
-                    </li>
-                    <li>
-                        Sales teams may not have good answers for cybersecurity beyond the corporate talking points
-                    </li>
-                </ul>
-
-                <li>Unexpected Expenses</li>
-                <ul>
-                    <li>
-                        Expenses rise such as consideration for ransom payment during ransom attack
-                    </li>
-                    <li>
-                        Lost income in downtime
-                    </li>
-                </ul>
+                <li>
+                    the damage to the company's good name is difficult to overcome compared to the financial damage
+                </li>
             </ul>
+
+            <li>Loss of sales after data breach</li>
+            <ul>
+                <li>
+                    Poisoned searches and regular negative reports on news outlets turn off potential new customers
+                </li>
+                <li>
+                    Sales teams may not have good answers for cybersecurity beyond the corporate talking points
+                </li>
+            </ul>
+
+            <li>Unexpected Expenses</li>
+            <ul>
+                <li>
+                    Expenses rise such as consideration for ransom payment during ransom attack
+                </li>
+                <li>
+                    Lost income in downtime
+                </li>
+            </ul>
+        </ul>
         </p>
 
         <p class="textBox">
-            According to 
+            According to
             <a href="https://www.trendmicro.com/en_sg/business.html" class="linkSetting">
                 Trend Micro's findings of its latest global Cyber Risk Index
-            </a> 
-            (CRI) for the second half of 2021, 76% of respondents expect a breach in the next 12 months. Over one-third of the 
-            organizations faced seven or more successful network attacks in the past 12 months, a 10% increase since the previous results. 
-            In addition, as data gets more and more digitized, there is also an increase in the amount of data loss during data breach 
+            </a>
+            (CRI) for the second half of 2021, 76% of respondents expect a breach in the next 12 months. Over one-third
+            of the
+            organizations faced seven or more successful network attacks in the past 12 months, a 10% increase since the
+            previous results.
+            In addition, as data gets more and more digitized, there is also an increase in the amount of data loss
+            during data breach
             compared to the previous years.
         </p>
     </div>
@@ -157,58 +211,60 @@
                 </div>
                 <svg id="legend"></svg>
             </div>
-            
+
             <svg id="heatmapGraph"></svg>
             <div id="heattip"></div>
         </div>
     </div>
     <div class="textTitle">
         <p class="textBox">
-            As shown in the heatmap, cases of major global data breaches are on an increasing trend, with insurmountable 
-            amount of data records lost with each case. It is also known that 
-            <a href = "https://www.techrepublic.com/article/forrester-what-can-we-learn-from-a-disastrous-year-of-hacks-and-breaches/" class="linkSetting">
+            As shown in the heatmap, cases of major global data breaches are on an increasing trend, with insurmountable
+            amount of data records lost with each case. It is also known that
+            <a href="https://www.techrepublic.com/article/forrester-what-can-we-learn-from-a-disastrous-year-of-hacks-and-breaches/"
+                class="linkSetting">
                 95% of the breach records came from the government,
             </a>
             retail and technological sectors especially, and the trend is on the rise from ther onwards.
         </p>
         <p class="textBox">
             The Cyber Risk Index report also highlighted top five cyber threats in Asia Pacific (APAC) includes:
+        <ul>
+            <li>Phishing and social engineering </li>
             <ul>
-                <li>Phishing and social engineering </li>
-                <ul>
-                    <li>
-                        Attacks that often scam and steal user data with fraudulent messages usually via emails or text with links or attachments
-                    </li>
-                </ul>
+                <li>
+                    Attacks that often scam and steal user data with fraudulent messages usually via emails or text with
+                    links or attachments
+                </li>
+            </ul>
 
-                <li>Botnets</li>
-                <ul>
-                    <li>
-                        Cybercriminals that infiltrate and gain control of the organizations' network
-                    </li>
-                </ul>
+            <li>Botnets</li>
+            <ul>
+                <li>
+                    Cybercriminals that infiltrate and gain control of the organizations' network
+                </li>
+            </ul>
 
-                <li>Fileless Attack</li>
-                <ul>
-                    <li>
-                        Malware that uses legitimate tools built in the system to execute an attack
-                    </li>
-                </ul>
+            <li>Fileless Attack</li>
+            <ul>
+                <li>
+                    Malware that uses legitimate tools built in the system to execute an attack
+                </li>
+            </ul>
 
-                <li>Randomware</li>
-                <ul>
-                    <li>
-                        An attack that withholds critical or personal data, usually at a ransom
-                    </li>
-                </ul>
+            <li>Randomware</li>
+            <ul>
+                <li>
+                    An attack that withholds critical or personal data, usually at a ransom
+                </li>
+            </ul>
 
-                <li>Denial of Service</li>
-                <ul>
-                    <li>
-                        Attack that disrupts and prevents daily operational functions of its victims
-                    </li>
-                </ul>
-            </ul>	
+            <li>Denial of Service</li>
+            <ul>
+                <li>
+                    Attack that disrupts and prevents daily operational functions of its victims
+                </li>
+            </ul>
+        </ul>
         </p>
     </div>
 
@@ -217,28 +273,34 @@
     </h3>
 
     <div>
-        <svg id="lollipop"></svg>    
+        <svg id="lollipop"></svg>
         <div id="lollitip"></div>
     </div>
 
-    <div class = "textTitle">
+    <div class="textTitle">
         <p class="textBox">
-            Through different data breaches, companies are always losing confidential data. Among the different means 
-            that leads to data loss, hackers, followed by poor security system, contribute to the highest amount of 
-            data loss. One thing of important note is that, albeit interlinked, companies that lost confidential data 
-            due to hackers does not always imply that the companies do have poor security, for it could also mean a simple 
-            inside job, or loss of device that gave away access to confidential data outside of the company. <br/> <br/>
+            Through different data breaches, companies are always losing confidential data. Among the different means
+            that leads to data loss, hackers, followed by poor security system, contribute to the highest amount of
+            data loss. One thing of important note is that, albeit interlinked, companies that lost confidential data
+            due to hackers does not always imply that the companies do have poor security, for it could also mean a
+            simple
+            inside job, or loss of device that gave away access to confidential data outside of the company. <br />
+            <br />
 
-            In addition, among the hacking cases, 
-            <a href = "https://enterprise.verizon.com/resources/reports/2019-data-breach-investigations-report.pdf" class ="linkSetting">
-                71% of the data breaches are financially motivated, 
+            In addition, among the hacking cases,
+            <a href="https://enterprise.verizon.com/resources/reports/2019-data-breach-investigations-report.pdf"
+                class="linkSetting">
+                71% of the data breaches are financially motivated,
             </a>
-            while an average of 
-            <a href ="https://enterprise.verizon.com/resources/reports/2019-data-breach-investigations-report.pdf" class = "linkSetting">
+            while an average of
+            <a href="https://enterprise.verizon.com/resources/reports/2019-data-breach-investigations-report.pdf"
+                class="linkSetting">
                 4,800 websites a month are compromised with formjacking code
             </a>
-            as per the various 2019 statistics. It is indeed almost inevitable that the companies should make haste with regards to catching up 
-            with the technological boom, as the data becomes more vulnerable with each technological advance, which could potentially cripple 
+            as per the various 2019 statistics. It is indeed almost inevitable that the companies should make haste with
+            regards to catching up
+            with the technological boom, as the data becomes more vulnerable with each technological advance, which
+            could potentially cripple
             the entire business.
         </p>
 
@@ -248,25 +310,34 @@
         Types of data often targeted
     </h3>
     <div id="bar_chart_div"> </div>
-    <div class = "textTitle">
+    <div class="textTitle">
         <p class="textBox">
-            Based on the bar chart shows that the highest data type loss is personal details information and passwords followed closely by credit card and banking details. 
-            One possible reason for Personal Details information to be ranked first in type of data stolen was due to the possible usage of the information. 
-            
-            According to <a href="https://www.f-secure.com/en/home/articles/why-do-hackers-want-your-personal-information#:~:text=Stolen%20personal%20information%20is%20fuel%20for%20identity%20theft&text=Many%20online%20services%20require%20users,taking%20loans%20in%20their%20name.">F-secure</a>
-            , possible stolen data contain information such as home address, name, email address and credit card number. <br/>
-            
-            This could lead to identity theft stated by <a href="https://www.trendmicro.com/vinfo/pl/security/news/online-privacy/identity-theft-and-the-value-of-your-personal-data">TrendMicro</a>
-            
-             as the hacker could use those details to access their bank account for more money or even imposter someone by using their social media to further scam other people.
-            <br/><br/>
-             A report done by 
-             <a href="https://www.verizon.com/business/resources/reports/2022/dbir/2022-data-breach-investigations-report-dbir.pdf">Verizon</a> 
-              in 2022 shows that between 2019 and 2021, there is at least 40% of data stolen are personal data while 50% are credentials and 10% are payments. 
-             Credential are targeted due to the possibility of using it to data breach against corporation organisations. 
-             An example by 
-             <a href="https://threatpost.com/data-theft-united-nations/169357/">Threatpost</a> 
-             shows, how Union Nation data breaches due to stolen credentials have been used to access third-party software that has been connected to the organization's network.
+            Based on the bar chart shows that the highest data type loss is personal details information and passwords
+            followed closely by credit card and banking details.
+            One possible reason for Personal Details information to be ranked first in type of data stolen was due to
+            the possible usage of the information.
+
+            According to <a
+                href="https://www.f-secure.com/en/home/articles/why-do-hackers-want-your-personal-information#:~:text=Stolen%20personal%20information%20is%20fuel%20for%20identity%20theft&text=Many%20online%20services%20require%20users,taking%20loans%20in%20their%20name.">F-secure</a>
+            , possible stolen data contain information such as home address, name, email address and credit card number.
+            <br />
+
+            This could lead to identity theft stated by <a
+                href="https://www.trendmicro.com/vinfo/pl/security/news/online-privacy/identity-theft-and-the-value-of-your-personal-data">TrendMicro</a>
+
+            as the hacker could use those details to access their bank account for more money or even imposter someone
+            by using their social media to further scam other people.
+            <br /><br />
+            A report done by
+            <a
+                href="https://www.verizon.com/business/resources/reports/2022/dbir/2022-data-breach-investigations-report-dbir.pdf">Verizon</a>
+            in 2022 shows that between 2019 and 2021, there is at least 40% of data stolen are personal data while 50%
+            are credentials and 10% are payments.
+            Credential are targeted due to the possibility of using it to data breach against corporation organisations.
+            An example by
+            <a href="https://threatpost.com/data-theft-united-nations/169357/">Threatpost</a>
+            shows, how Union Nation data breaches due to stolen credentials have been used to access third-party
+            software that has been connected to the organization's network.
         </p>
 
     </div>
@@ -277,6 +348,56 @@
     <h3 class="textTitle" style="text-align: center;">
         Mitigations
     </h3>
+    <div>
+        <div class="card_left" >
+            <div class="card_left_inner">
+                <div class="card_left_front">
+                    <p>tincidunt, porta sem eget, hendrerit urna.</p>
 
+                </div>
+                <div class="card_left_back">
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a interdum nisl. Fusce eu eros
+                        tincidunt, porta sem eget, hendrerit urna.
+                        Aliquam dapibus purus at leo sollicitudin facilisis. Praesent dolor mauris, condimentum et
+                        rutrum nec, eleifend sit amet est.
+                        Donec purus quam, aliquam eget posuere at, ornare sit amet dui. Praesent et auctor nunc. Morbi
+                        erat risus, ornare a hendrerit vitae, vehicula quis eros.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card_left">
+            <div class="card_left_inner">
+                <div class="card_left_front">
+                    <p>tincidunt, porta sem eget, hendrerit urna.</p>
+                </div>
+                <div class="card_left_back">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a interdum nisl. Fusce eu eros
+                        tincidunt, porta sem eget, hendrerit urna.
+                        Aliquam dapibus purus at leo sollicitudin facilisis. Praesent dolor mauris, condimentum et
+                        rutrum nec, eleifend sit amet est.
+                        Donec purus quam, aliquam eget posuere at, ornare sit amet dui. Praesent et auctor nunc. Morbi
+                        erat risus, ornare a hendrerit vitae, vehicula quis eros.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card_left">
+            <div class="card_left_inner">
+                <div class="card_left_front">
+                    <p>tincidunt, porta sem eget, hendrerit urna.</p>
+                </div>
+                <div class="card_left_back">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a interdum nisl. Fusce eu eros
+                        tincidunt, porta sem eget, hendrerit urna.
+                        Aliquam dapibus purus at leo sollicitudin facilisis. Praesent dolor mauris, condimentum et
+                        rutrum nec, eleifend sit amet est.
+                        Donec purus quam, aliquam eget posuere at, ornare sit amet dui. Praesent et auctor nunc. Morbi
+                        erat risus, ornare a hendrerit vitae, vehicula quis eros.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
