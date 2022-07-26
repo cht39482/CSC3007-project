@@ -16,7 +16,7 @@ let lollipop = d3.select("#lollipop")
 // Load external data
 Promise.all([d3.csv(breachesData)]).then(data => {
     console.log(data[0])
-
+    
     /*******************************************
     ******************Heat Map******************
     ********************************************/
