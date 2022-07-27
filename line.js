@@ -15,7 +15,8 @@ function groupedBreach(data) {
     return grouped_breach
 }
 function getXvalue(event, xScale) {
-    var x_pos = event.pageX - 140
+    console.log("starting" + document.getElementById("svgContainer").getBoundingClientRect().x + 10)
+    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 250
     var domain = xScale.domain()
     var range = xScale.range()
     var rangePoints = d3.range(range[0], range[1] + 59, xScale.step())
@@ -25,29 +26,30 @@ function getXvalue(event, xScale) {
     return x_val
 }
 function getLineChart() {
+
     // function check
-    let width = 1200, height = 800;
-    var margin = { top: 10, right: 40, bottom: 70, left: 90 },
+    let width = 800, height = 800;
+    var margin = { top: 30, right: 30, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
     Promise.all([d3.csv("breaches.csv")]).then(data => {
         var grouped_breach = groupedBreach(data[0])
         var svg = d3.select("#svgContainer")
             .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", margin_width + margin.left + margin.right)
+            .attr("height", margin_height + margin.top + margin.bottom)
             .attr("viewBox", [0, 0, width, height])
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", `translate(${margin.left},${margin.top})`);
         svg.append("text")
             .attr("transform", "rotate(-90)")
             .attr("x", -(height / 2))
-            .attr("y", -60)
+            .attr("y", -40)
             .style("text-anchor", "middle")
             .text("Number of data breaches");
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height - 30)
+            .attr("y", height - 60)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
             .text("Data breaches across years");
@@ -68,7 +70,7 @@ function getLineChart() {
             .range([0, margin_width]);
         var yScale = d3.scaleLinear()
             .domain([d3.min(recordmap), d3.max(recordmap)])
-            .range([margin_height, 0]);
+            .range([margin_height, margin.top]);
         // Add x-axis
         svg.append("g")
             .attr("class", "axis axis-x")
@@ -90,10 +92,11 @@ function getLineChart() {
                 .y(d => yScale(d.count)));
         //for tooltip
         var tooltip = d3.select("#svgContainer")
-            .append("rect")
-            .attr("class", "tooltip")
-            .style("position", "absolute")
+            .append("div")
+            .attr("class", "tooltip-line")
+            .style("position", "relative")
             .style("padding", "8px");
+
         var bisectYear = d3.bisector(function (d) { return d.year; }).right;
         var mousemove = function (event, d) {
             var x_val = getXvalue(event, xScale);
@@ -104,8 +107,11 @@ function getLineChart() {
             var d1_date = new Date(d1.year, 0);
             var d_result = x_val - d0_date > d1_date - x_val ? d1 : d0;
             focus.attr("transform", "translate(" + xScale(d_result.year) + "," + yScale(d_result.count) + ")");
-            tooltip.style("left", (xScale(d_result.year) + 150) + "px")
-            tooltip.style("top", (yScale(d_result.count) + 100) + "px");
+            console.log("x",xScale(d_result.year))
+            console.log("y",yScale(d_result.count))
+            var rect= document.getElementById("svgContainer").getBoundingClientRect()
+            tooltip.style("left", xScale(d_result.year)+225 + "px")
+            tooltip.style("top", yScale(d_result.count)-875 + "px")
             tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count + " records lost")
             d3.select(".mouse-line")
                 .attr("d", d3.line()([[xScale(d_result.year), 0], [xScale(d_result.year), margin_height]]))
