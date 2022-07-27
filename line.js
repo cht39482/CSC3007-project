@@ -15,7 +15,6 @@ function groupedBreach(data) {
     return grouped_breach
 }
 function getXvalue(event, xScale) {
-    console.log("starting" + document.getElementById("svgContainer").getBoundingClientRect().x + 10)
     var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 250
     var domain = xScale.domain()
     var range = xScale.range()
@@ -94,7 +93,7 @@ function getLineChart() {
         var tooltip = d3.select("#svgContainer")
             .append("div")
             .attr("class", "tooltip-line")
-            .style("position", "relative")
+            // .style("position", "relative")
             .style("padding", "8px");
 
         var bisectYear = d3.bisector(function (d) { return d.year; }).right;
@@ -107,11 +106,8 @@ function getLineChart() {
             var d1_date = new Date(d1.year, 0);
             var d_result = x_val - d0_date > d1_date - x_val ? d1 : d0;
             focus.attr("transform", "translate(" + xScale(d_result.year) + "," + yScale(d_result.count) + ")");
-            console.log("x",xScale(d_result.year))
-            console.log("y",yScale(d_result.count))
-            var rect= document.getElementById("svgContainer").getBoundingClientRect()
-            tooltip.style("left", xScale(d_result.year)+225 + "px")
-            tooltip.style("top", yScale(d_result.count)-875 + "px")
+            tooltip.style("left", xScale(d_result.year)+300 + "px")
+            tooltip.style("top", yScale(d_result.count)+3405 + "px")
             tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count + " records lost")
             d3.select(".mouse-line")
                 .attr("d", d3.line()([[xScale(d_result.year), 0], [xScale(d_result.year), margin_height]]))
