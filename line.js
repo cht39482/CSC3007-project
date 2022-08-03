@@ -15,7 +15,7 @@ function groupedBreach(data) {
     return grouped_breach
 }
 function getXvalue(event, xScale) {
-    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 300
+    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 270
     var domain = xScale.domain()
     var range = xScale.range()
     var rangePoints = d3.range(range[0], range[1] + 59, xScale.step())
@@ -27,8 +27,8 @@ function getXvalue(event, xScale) {
 function getLineChart() {
 
     // function check
-    let width = 1200, height = 800;
-    var margin = { top: 30, right: 400, bottom: 70, left: 60 },
+    let width = 1400, height = 800;
+    var margin = { top: 30, right: 600, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
     Promise.all([d3.csv("breaches.csv")]).then(data => {
