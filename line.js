@@ -47,7 +47,7 @@ function getLineChart() {
             .style("text-anchor", "middle")
             .text("Number of data breaches");
         svg.append("text")
-            .attr("x", width / 2)
+            .attr("x", margin_width / 2)
             .attr("y", height - 60)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
