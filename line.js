@@ -6,16 +6,18 @@ function groupedBreach(data) {
         var found = grouped_breach.find(r => r.year === key);
         if (found && "count" in found) {
             found.count += num_records
+            found.num_companies+=1
             id = grouped_breach.findIndex(r => r.year === key)
             grouped_breach[id] = found
+            
         } else {
-            grouped_breach.push({ year: key, count: num_records })
+            grouped_breach.push({ year: key, count: num_records,num_companies:1 })
         }
     });
     return grouped_breach
 }
 function getXvalue(event, xScale) {
-    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 355
+    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 270
     var domain = xScale.domain()
     var range = xScale.range()
     var rangePoints = d3.range(range[0], range[1] + 59, xScale.step())
@@ -27,8 +29,8 @@ function getXvalue(event, xScale) {
 function getLineChart() {
 
     // function check
-    let width = 800, height = 800;
-    var margin = { top: 30, right: 30, bottom: 70, left: 60 },
+    let width = 1400, height = 800;
+    var margin = { top: 30, right: 600, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
     Promise.all([d3.csv("breaches.csv")]).then(data => {
@@ -47,7 +49,7 @@ function getLineChart() {
             .style("text-anchor", "middle")
             .text("Number of data breaches");
         svg.append("text")
-            .attr("x", width / 2)
+            .attr("x", margin_width / 2)
             .attr("y", height - 60)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
@@ -106,9 +108,9 @@ function getLineChart() {
             var d1_date = new Date(d1.year, 0);
             var d_result = x_val - d0_date > d1_date - x_val ? d1 : d0;
             focus.attr("transform", "translate(" + xScale(d_result.year) + "," + yScale(d_result.count) + ")");
-            tooltip.style("left", xScale(d_result.year)+450 + "px")
-            tooltip.style("top", yScale(d_result.count)+3705 + "px")
-            tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count + " records lost")
+            tooltip.style("left", xScale(d_result.year)+380 + "px")
+            tooltip.style("top", yScale(d_result.count)+3550 + "px")
+            tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count +" records"+  "<br />" + d_result.num_companies+" companies")
             d3.select(".mouse-line")
                 .attr("d", d3.line()([[xScale(d_result.year), 0], [xScale(d_result.year), margin_height]]))
                 .style("opacity", 1)

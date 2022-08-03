@@ -117,4 +117,15 @@ svg {
     color: black;
     padding: 10px;
     transform: rotateY(180deg);
+    text-align: justify;
+
+}
+
+
+.card_title_front {
+    padding-top: 50px;
+    font-weight: bold;
+    font-size: 2.0em;
+    text-align: center;
+
 }
