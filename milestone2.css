@@ -72,16 +72,13 @@ svg {
     width: 50%;
 }
 
-
 .card_left {
     background-color: transparent;
     width: 350px;
     height: 350px;
     float: left;
-    margin: 10px;
     margin-left: 5%;
     text-align: center;
-
 }
 
 .card_left_inner {
@@ -107,9 +104,10 @@ svg {
 }
 
 .card_left_front {
-    background-color: #EF9F7B;
+    background-color: #d4c7d4;
     padding: 10px;
     color: black;
+    border-radius: 25px;
 }
 
 .card_left_back {
@@ -118,9 +116,8 @@ svg {
     padding: 10px;
     transform: rotateY(180deg);
     text-align: justify;
-
+    border-radius: 20px;
 }
-
 
 .card_title_front {
     padding-top: 50px;
