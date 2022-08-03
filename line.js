@@ -27,8 +27,8 @@ function getXvalue(event, xScale) {
 function getLineChart() {
 
     // function check
-    let width = 900, height = 800;
-    var margin = { top: 30, right: 200, bottom: 70, left: 60 },
+    let width = 1200, height = 800;
+    var margin = { top: 30, right: 300, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
     Promise.all([d3.csv("breaches.csv")]).then(data => {
@@ -106,7 +106,7 @@ function getLineChart() {
             var d1_date = new Date(d1.year, 0);
             var d_result = x_val - d0_date > d1_date - x_val ? d1 : d0;
             focus.attr("transform", "translate(" + xScale(d_result.year) + "," + yScale(d_result.count) + ")");
-            tooltip.style("left", xScale(d_result.year)+400 + "px")
+            tooltip.style("left", xScale(d_result.year)+390 + "px")
             tooltip.style("top", yScale(d_result.count)+3550 + "px")
             tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count + " records lost")
             d3.select(".mouse-line")
