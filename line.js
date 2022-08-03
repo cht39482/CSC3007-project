@@ -1,4 +1,5 @@
 function groupedBreach(data) {
+    console.log(data)
     var grouped_breach = []
     data.forEach((element, id) => {
         var key = element["year"]
@@ -18,7 +19,7 @@ function groupedBreach(data) {
     return grouped_breach
 }
 function getXvalue(event, xScale) {
-    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 270
+    var x_pos = event.pageX - (document.getElementById("lineChart").getBoundingClientRect().x + 10) - 10
     var domain = xScale.domain()
     var range = xScale.range()
     var rangePoints = d3.range(range[0], range[1] + 59, xScale.step())
@@ -34,24 +35,21 @@ function getLineChart() {
     var margin = { top: 30, right: 600, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
-    Promise.all([d3.csv("https://june-han.github.io/DataBreach_HeatMap/data/breaches.csv")]).then(data => {
+    Promise.all([d3.csv("https://june-han.github.io/DataBreach_HeatMap/data/breaches.csv")]).then(data => {   
         var grouped_breach = groupedBreach(data[0])
         grouped_breach.reverse()
-        // grouped_breach=grouped_breach.sort(function(a,b){
-        //     return parseInt(b.year)-parseInt(a.year)
-        // })
-        // console.log("grouped:",grouped_breach)
-        var svg = d3.select("#svgContainer")
-            .append("svg")
-            .attr("width", margin_width + margin.left + margin.right)
-            .attr("height", margin_height + margin.top + margin.bottom)
-            .attr("viewBox", [0, 0, width, height])
-            .append("g")
+
+        var svg = d3.select("#lineChart")
+                    .attr("width", margin_width + margin.left+50 + margin.right)
+                    .attr("height", margin_height + margin.top + margin.bottom)
+                    .attr("viewBox", [0, 0, width, height])
+
+        svg.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
         svg.append("text")
             .attr("transform", "rotate(-90)")
             .attr("x", -(height / 2))
-            .attr("y", -40)
+            .attr("y", margin.left-40)
             .style("text-anchor", "middle")
             .text("Number of data breaches");
         svg.append("text")
@@ -72,9 +70,10 @@ function getLineChart() {
         focus.append("circle").attr("r", 5);
         //Scaling maps
         var recordmap = d3.map(grouped_breach, d => d.count);
+
         var xScale = d3.scalePoint()
             .domain(d3.map(grouped_breach, d => d.year).values())
-            .range([0, margin_width]);
+            .range([margin.left, margin_width]);
         var yScale = d3.scaleLinear()
             .domain([d3.min(recordmap), d3.max(recordmap)])
             .range([margin_height, margin.top]);
@@ -86,7 +85,7 @@ function getLineChart() {
         // Add y-axis
         svg.append("g")
             .attr("class", "axis axis-y")
-            .attr("transform", "translate(" + 0 + "," + 0 + ")")
+            .attr("transform", "translate(" + margin.left + "," + 0 + ")")
             .call(d3.axisLeft(yScale).ticks(10, "~s"));
         //draw path
         svg.append("path")
@@ -98,11 +97,16 @@ function getLineChart() {
                 .x(d => xScale(d.year))
                 .y(d => yScale(d.count)));
         //for tooltip
-        var tooltip = d3.select("#svgContainer")
-            .append("div")
-            .attr("class", "tooltip-line")
-            // .style("position", "relative")
-            .style("padding", "8px");
+        var tooltip = d3.select("#linetip")
+                        .style("position", "absolute")
+                        .style("z-index", "10")
+                        .style("visibility", "hidden")
+                        .style("padding", "15px")
+                        .style("color", "white") //text color
+                        .style("background", "black") //bg color
+                        .style("border", "2px solid white") //border
+                        .style("border-radius", "25px")
+                        .style("box-shadow", "10px 8px 2px 1px rgba(0, 0, 255, .2)");
 
         var bisectYear = d3.bisector(function (d) { return d.year; }).right;
         var mousemove = function (event, d) {
@@ -114,8 +118,8 @@ function getLineChart() {
             var d1_date = new Date(d1.year, 0);
             var d_result = x_val - d0_date > d1_date - x_val ? d1 : d0;
             focus.attr("transform", "translate(" + xScale(d_result.year) + "," + yScale(d_result.count) + ")");
-            tooltip.style("left", xScale(d_result.year)+380 + "px")
-            tooltip.style("top", yScale(d_result.count)+3550 + "px")
+            tooltip.style("left", event.pageX + "px")
+            tooltip.style("top",  event.pageY+ "px")
             tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count +" records"+  "<br />" + d_result.num_companies+" companies")
             d3.select(".mouse-line")
                 .attr("d", d3.line()([[xScale(d_result.year), 0], [xScale(d_result.year), margin_height]]))
@@ -131,14 +135,17 @@ function getLineChart() {
             .attr("height", margin_height)
             .style("fill", "none")
             .attr('pointer-events', 'all')
-            .on("mouseover", function () {
+            .on("mouseover", function (event) {
                 focus.style("display", null);
-                tooltip.style("display", null);
+                //tooltip.style("display", null);
+                tooltip.style("visibility", "visible")
+                        .style("top", (event.pageY-10)+"px")
+                        .style("left",(event.pageX+10)+"px");
                 d3.select(".mouse-line").style("opacity", 0);
             })
             .on("mouseout", function () {
                 focus.style("display", "none");
-                tooltip.style("display", "none");
+                tooltip.style("visibility", "hidden");
                 d3.select(".mouse-line").style("opacity", 0);
             })
             .on("mousemove", mousemove);
