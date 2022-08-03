@@ -6,10 +6,12 @@ function groupedBreach(data) {
         var found = grouped_breach.find(r => r.year === key);
         if (found && "count" in found) {
             found.count += num_records
+            found.num_companies+=1
             id = grouped_breach.findIndex(r => r.year === key)
             grouped_breach[id] = found
+            
         } else {
-            grouped_breach.push({ year: key, count: num_records })
+            grouped_breach.push({ year: key, count: num_records,num_companies:1 })
         }
     });
     return grouped_breach
@@ -108,7 +110,7 @@ function getLineChart() {
             focus.attr("transform", "translate(" + xScale(d_result.year) + "," + yScale(d_result.count) + ")");
             tooltip.style("left", xScale(d_result.year)+380 + "px")
             tooltip.style("top", yScale(d_result.count)+3550 + "px")
-            tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count + " records lost")
+            tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count +" records"+  "<br />" + d_result.num_companies+" companies")
             d3.select(".mouse-line")
                 .attr("d", d3.line()([[xScale(d_result.year), 0], [xScale(d_result.year), margin_height]]))
                 .style("opacity", 1)
