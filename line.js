@@ -38,6 +38,9 @@ function getLineChart() {
     Promise.all([d3.csv("https://june-han.github.io/DataBreach_HeatMap/data/breaches.csv")]).then(data => {   
         var grouped_breach = groupedBreach(data[0])
         grouped_breach.reverse()
+        var temp=grouped_breach[12]
+        grouped_breach[12]=grouped_breach[13]
+        grouped_breach[13]=temp
 
         var svg = d3.select("#lineChart")
                     .attr("width", margin_width + margin.left+50 + margin.right)
@@ -137,7 +140,6 @@ function getLineChart() {
             .attr('pointer-events', 'all')
             .on("mouseover", function (event) {
                 focus.style("display", null);
-                //tooltip.style("display", null);
                 tooltip.style("visibility", "visible")
                         .style("top", (event.pageY-10)+"px")
                         .style("left",(event.pageX+10)+"px");
