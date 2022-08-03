@@ -15,7 +15,7 @@ function groupedBreach(data) {
     return grouped_breach
 }
 function getXvalue(event, xScale) {
-    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 355
+    var x_pos = event.pageX - (document.getElementById("svgContainer").getBoundingClientRect().x + 10) - 300
     var domain = xScale.domain()
     var range = xScale.range()
     var rangePoints = d3.range(range[0], range[1] + 59, xScale.step())
@@ -27,8 +27,8 @@ function getXvalue(event, xScale) {
 function getLineChart() {
 
     // function check
-    let width = 800, height = 800;
-    var margin = { top: 30, right: 30, bottom: 70, left: 60 },
+    let width = 900, height = 800;
+    var margin = { top: 30, right: 50, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
     Promise.all([d3.csv("breaches.csv")]).then(data => {
@@ -106,8 +106,8 @@ function getLineChart() {
             var d1_date = new Date(d1.year, 0);
             var d_result = x_val - d0_date > d1_date - x_val ? d1 : d0;
             focus.attr("transform", "translate(" + xScale(d_result.year) + "," + yScale(d_result.count) + ")");
-            tooltip.style("left", xScale(d_result.year)+450 + "px")
-            tooltip.style("top", yScale(d_result.count)+3705 + "px")
+            tooltip.style("left", xScale(d_result.year)+410 + "px")
+            tooltip.style("top", yScale(d_result.count)+3650 + "px")
             tooltip.html(`<b>${d_result.year}</b>` + "<br />" + d_result.count + " records lost")
             d3.select(".mouse-line")
                 .attr("d", d3.line()([[xScale(d_result.year), 0], [xScale(d_result.year), margin_height]]))
