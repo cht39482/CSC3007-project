@@ -117,6 +117,8 @@ svg {
     color: black;
     padding: 10px;
     transform: rotateY(180deg);
+    text-align: justify;
+
 }
 
 
