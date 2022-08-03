@@ -2,7 +2,8 @@ function groupedBreach(data) {
     var grouped_breach = []
     data.forEach((element, id) => {
         var key = element["year"]
-        var num_records = isNaN(element["records lost"]) ? 0 : parseInt(element["records lost"])
+        console.log(isNaN(element["records lost"]))
+        var num_records =  parseInt(element["records lost"].replace(/,/g,""))
         var found = grouped_breach.find(r => r.year === key);
         if (found && "count" in found) {
             found.count += num_records
@@ -33,8 +34,13 @@ function getLineChart() {
     var margin = { top: 30, right: 600, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
-    Promise.all([d3.csv("breaches.csv")]).then(data => {
+    Promise.all([d3.csv("https://june-han.github.io/DataBreach_HeatMap/data/breaches.csv")]).then(data => {
         var grouped_breach = groupedBreach(data[0])
+        grouped_breach.reverse()
+        // grouped_breach=grouped_breach.sort(function(a,b){
+        //     return parseInt(b.year)-parseInt(a.year)
+        // })
+        // console.log("grouped:",grouped_breach)
         var svg = d3.select("#svgContainer")
             .append("svg")
             .attr("width", margin_width + margin.left + margin.right)
