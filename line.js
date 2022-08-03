@@ -32,7 +32,7 @@ function getLineChart() {
 
     // function check
     let width = 1400, height = 800;
-    var margin = { top: 30, right: 600, bottom: 70, left: 60 },
+    var margin = { top: 30, right: 20, bottom: 70, left: 60 },
         margin_width = width - margin.left - margin.right,
         margin_height = height - margin.top - margin.bottom;
     Promise.all([d3.csv("https://june-han.github.io/DataBreach_HeatMap/data/breaches.csv")]).then(data => {   
